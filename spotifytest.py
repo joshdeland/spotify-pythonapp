@@ -1,8 +1,10 @@
+import requests
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 import datetime
-from bs4 import BeautifulSoup
-import requests
+
+SPOTIPY_CLIENT_ID = "3f082ea3eb564ab293a36cb5e896a771"
+SPOTIPY_CLIENT_SECRET = "9c5499aab4e64842addbe3473a86f541"
 
 
 def main():
@@ -18,30 +20,30 @@ def main():
         print("I hope you're having a good night!")
     print(current_time, "seems like a great time to listen to some music!")
 
-
-    page = requests.get(
-        "https://forecast.weather.gov/MapClick.php?lat=44.47593000000006&lon=-73.21276999999998#.W_xlZC2ZP00")
-    soup = BeautifulSoup(page.content, "html.parser")
-    current_temp = soup.find(class_="myforecast-current-lrg").get_text()
-    temp_int = int(current_temp[:-2])
-
-    if temp_int < 60:
-        print("Right now it's ", current_temp,
-              ". Cozy up inside and find the perfect playlist for your mood.",
-              sep='')
-    else:
-        print("Right now it's ", current_temp,
-              ". Consider listening to our selected playlist outside today!",
-              sep='')
-
-
-
-
     client_credentials_manager = SpotifyClientCredentials(
-        client_id='688a719c7b5d4c7783541a026793389f',
-        client_secret='c6ce3e951ddd49ca8d9440eaf396deda')
+        client_id=SPOTIPY_CLIENT_ID,
+        client_secret=SPOTIPY_CLIENT_SECRET)
     sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
+
+    # AUTH_URL = 'https://accounts.spotify.com/api/token'
+    #
+    # # POST
+    # auth_response = requests.post(AUTH_URL, {
+    #     'grant_type': 'client_credentials',
+    #     'client_id': SPOTIPY_CLIENT_ID,
+    #     'client_secret': SPOTIPY_CLIENT_ID,
+    # })
+    #
+    # # convert the response to JSON
+    # auth_response_data = auth_response.json()
+    #
+    # # save the access token
+    # access_token = auth_response_data['access_token']
+
+    
     mood = input("How are you feeling? ")
+
+
 
     # Each time a mood is selected new playlist is created.
     # The program webscrapes Spotify for the desired playlist.
@@ -114,7 +116,6 @@ def main():
         display_songs(songs, artists)
         print("Thanks for listening!")
 
-
     if mood == "calm":
         calm_playlist = 'spotify:playlist:4oZngumZBss8YAloDLoZuq'
         calm_songs = sp.user_playlist_tracks('spotify', calm_playlist,
@@ -134,7 +135,6 @@ def main():
                 print()
                 print("Thanks for listening!")
 
-
     if mood == "more_calm":
         more_calm_playlist = 'spotify:playlist:3fXTw38349sEhnNUjuicZy'
         more_calm_songs = sp.user_playlist_tracks('spotify', more_calm_playlist,
@@ -148,7 +148,6 @@ def main():
         artists = get_artists(more_calm_artists)
         display_songs(songs, artists)
         print("Thanks for listening!")
-
 
     if mood == "excited":
         excited_playlist = 'spotify:playlist:0lz5ePzdGx0PqOIajuRcPe'
@@ -168,7 +167,6 @@ def main():
                 print()
                 print("Thanks for listening!")
 
-
     if mood == "more_excited":
         more_excited_playlist = 'spotify:playlist:02hy5jkmJVidaxsdILQYZk'
         more_excited_songs = sp.user_playlist_tracks('spotify',
@@ -183,7 +181,6 @@ def main():
         artists = get_artists(more_excited_artists)
         display_songs(songs, artists)
         print("Thanks for listening!")
-
 
     if mood == "happy":
         happy_playlist = 'spotify:playlist:7zewLwuaWUj7XW83IqcQHG'
@@ -202,7 +199,6 @@ def main():
             else:
                 print()
                 print("Thanks for listening!")
-
 
     if mood == "more_happy":
         more_happy_playlist = 'spotify:playlist:70mEDFAvnUUHc1G7GRnwxF'
@@ -240,7 +236,6 @@ def main():
                 print()
                 print("Thanks for listening!")
 
-
     if mood == "more_heartbroken":
         more_heartbroken_playlist = 'spotify:playlist:0ML495lV8IEp0cxKLg023q'
         more_heartbroken_songs = sp.user_playlist_tracks('spotify',
@@ -255,7 +250,6 @@ def main():
         artists = get_artists(more_heartbroken_artists)
         display_songs(songs, artists)
         print("Thanks for listening!")
-
 
     if mood == "lovey":
         lovey_playlist = 'spotify:playlist:24RFk3tmIifDARS9LjI6a9'
@@ -275,7 +269,6 @@ def main():
                 print()
                 print("Thanks for listening!")
 
-
     if mood == "more_lovey":
         more_lovey_playlist = 'spotify:playlist:4ASwHUywSR59lMGou7YeQS'
         more_lovey_songs = sp.user_playlist_tracks('spotify',
@@ -290,7 +283,6 @@ def main():
         artists = get_artists(more_lovey_artists)
         display_songs(songs, artists)
         print("Thanks for listening!")
-
 
     if mood == "nostalgic":
 
@@ -312,7 +304,6 @@ def main():
                 print()
                 print("Thanks for listening!")
 
-
     if mood == "more_nostalgic":
         more_nostalgic_playlist = 'spotify:playlist:46Ad4tn0f1NGgmffBb52d5'
         more_nostalgic_songs = sp.user_playlist_tracks('spotify',
@@ -327,7 +318,6 @@ def main():
         artists = get_artists(more_nostalgic_artists)
         display_songs(songs, artists)
         print("Thanks for listening!")
-
 
     if mood == "sad":
         sad_playlist = 'spotify:playlist:7ozEGonpPyS1cYajFndJhB'
@@ -347,7 +337,6 @@ def main():
                 print()
                 print("Thanks for listening!")
 
-
     if mood == "more_sad":
         more_sad_playlist = 'spotify:playlist:4KdW4oolW3uXZeOQz6EKSy'
         more_sad_songs = sp.user_playlist_tracks('spotify', more_sad_playlist,
@@ -360,7 +349,6 @@ def main():
         artists = get_artists(more_sad_artists)
         display_songs(songs, artists)
         print("Thanks for listening!")
-
 
     if mood == "sassy":
         sassy_playlist = 'spotify:playlist:0fQabETAViqlQVVz3rdwT6'
@@ -380,7 +368,6 @@ def main():
                 print()
                 print("Thanks for listening!")
 
-
     if mood == "more":
         more_sassy_playlist = 'spotify:playlist:05RKjVJVDxAIlWyok1HVaN'
         more_sassy_songs = sp.user_playlist_tracks('spotify',
@@ -395,6 +382,7 @@ def main():
         artists = get_artists(more_sassy_artists)
         display_songs(songs, artists)
         print("Thanks for listening!")
+
 
 # The get_songs(all_hits) function takes [playlist name] = sp.user_playlist_tracks('spotify', [playlist name], fields='items(track(name))') as an argument.
 # This argument contains the names of each track in a given playlist.
@@ -420,6 +408,7 @@ def get_songs(all_hits):
         final_song_playlist.append(item)
 
     return final_song_playlist
+
 
 # The get_artists(artists) function takes [playlist name] = sp.user_playlist_tracks('spotify', [playlist name], fields='items(track(artists))') as an argument.
 # This argument contains the artists of each track in a given playlist.
@@ -447,6 +436,7 @@ def get_artists(artists):
             dic_to_list = list(dictionary.values())
             final_artist_list.append(dic_to_list[3])
     return final_artist_list
+
 
 # display_songs(song_choices, artist_choices) function
 # Input: 2 lists song_choices which lists all of the songs in the   # chosen playlist and artist_choices which lists all of artists in # the chosen playlist.
@@ -488,6 +478,7 @@ def display_songs(song_choices, artist_choices):
                 print()
     return full_playlist
 
+
 # ask_again() function
 # Input: none
 # Processing: asks the user whether they want more suggestions
@@ -499,6 +490,7 @@ def ask_again():
         return True
     else:
         return False
+
 
 # validate_diff_playlist() function
 # Input: none
@@ -515,4 +507,3 @@ def validate_diff_playlist():
 
 
 main()
-
